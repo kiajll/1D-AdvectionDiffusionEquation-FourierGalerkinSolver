@@ -15,15 +15,15 @@ void compute_rhs(double a, double nu, double Lx, const vector <double> &kx, cons
 int main(){
 
 // 1.Parameters
-    const double nu{0.001};             // Kinematic viscosity
-    const int N = pow(2,9);            // Number of spatial grid points, degree of freedom
-    const double U0{1.0};              // Amplitude of the initial velocity field
-    const double a{1.0};                    // Convective velocity
-    const int n{1};                    // Mode of initial wavenumber
-    const double Lx{2.0*M_PI};         // Length of periodic domain
-    const double k = (n* 2 * M_PI / Lx);  // Wave number of initial velocity field
-    const double tf = 1;             // Final time
-    const double dt = 1e-5;            // Time step
+    const double nu{0.001};                   // Kinematic viscosity
+    const int N = pow(2,9);                   // Number of spatial grid points, degree of freedom
+    const double U0{1.0};                     // Amplitude of the initial velocity field
+    const double a{1.0};                      // Convective velocity
+    const int n{1};                           // Mode of initial wavenumber
+    const double Lx{2.0*M_PI};                // Length of periodic domain
+    const double k = (n* 2 * M_PI / Lx);      // Wave number of initial velocity field
+    const double tf = 1;                      // Final time
+    const double dt = 1e-5;                   // Time step
     const int Nt = static_cast<int>(tf / dt); // Number of time steps
 
 //// 0. CFL evaluation    
@@ -33,24 +33,12 @@ cout << "CFL number equals to: " << CFL <<endl;
 if (CFL > 1.0) {
     cerr << "Warning: CFL condition violated! Reduce dt or increase N." << endl;
 }
-//    cout << k << endl;
 // 2. Spatial grid
- 
-    // We have N discrete points in spatial periodic domain
-    // with the last point wrapping to the first 
-    // if the domain is [0,Lx] and N=64, the indices are [0,1,2, ... , 63, 64] which requires N+1 points to define
     vector <double> x (N,0);
-    for(int i{0} ; i<N ; ++i){         // i=0:N; (N points + zero), where N+1's point is x[N] which is equal to x[0]
+    for(int i{0} ; i<N ; ++i){               // i=0:N-1; (N-1 points + zero), where N's point is x[N-1] which is equal to x[0]
         
-        x[i] = i*(Lx/N);                // Lx divided to N portion with N+1 points
+        x[i] = i*(Lx/N);                     // Lx divided to N-1 portion with N points
     }
-
- 
-    // 2.1 Checking output
-    cout << "\n ## Initial spatial domain ##"<< endl;
-    for (unsigned ii{0}; ii< x.size() ; ++ii)   // checking data
-        cout << x[ii] << " " ;
-    cout << endl;    
     
 // 3. Initial velocity field: u(x,0)= -U0 * sin(kx)
     vector <double> u (N,0);
@@ -59,15 +47,9 @@ if (CFL > 1.0) {
     }
     // 3.1. Enforcing initial periodic condition
     u[N-1] = u[0];
-//// Checking output
-//    cout << " ## Initial velocity ##"<< endl;
-//    for (unsigned ii{0}; ii<= u.size() ; ++ii)   // checking data
-//        cout << u[ii] << " " ;
-      
-//    cerr << "end of initial data generation" << endl;
     
     // 3.2. Checking output
-    ofstream outFile1("velocity_field_Initial.csv");  //ofstream is a class from <fstream> library
+    ofstream outFile1("velocity_field_Initial.csv");  // ofstream is a class from <fstream> library
 
     // Write header
     outFile1 << "x,velocity\n";
@@ -108,7 +90,7 @@ if (CFL > 1.0) {
     fftw_complex *u_hat2 = (fftw_complex*) fftw_malloc(fft_size);
     fftw_complex *u_hat3 = (fftw_complex*) fftw_malloc(fft_size);
 
-    // 8.1. Check memory allocation success for intermediate arrays
+// 8.1. Check memory allocation success for intermediate arrays
     if (!u_hat1 || !u_hat2 || !u_hat3) {
         cerr << "Error: Memory allocation failed for intermediate arrays (u_hat1 or u_hat2). Exiting program." << endl;
         return -1;
@@ -118,12 +100,12 @@ if (CFL > 1.0) {
     vector<complex<double>> R2(kx.size());
     vector<complex<double>> R3(kx.size());
 //########################################################################################
-// Start time
+// Start time      
 auto start = high_resolution_clock::now();
+    
 // 9. Time-stepping loop
 for (int t_cuntr = 0; t_cuntr < Nt; ++t_cuntr){
-//  double time = t_cuntr*dt;
-//  cout << time << endl;  
+
 // 9.1.1 RK3 stage 1
     memcpy(u_hat1, u_hat, fft_size);
     compute_rhs(a, nu, Lx, kx, u_hat1, R1);
@@ -149,8 +131,7 @@ for (int t_cuntr = 0; t_cuntr < Nt; ++t_cuntr){
     }
     
 }
-//###########################################################
-
+//##################################################################################
 
 // 9.3. Transform back to Physical space
     fftw_execute(backward);
