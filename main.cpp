@@ -191,7 +191,7 @@ void compute_rhs(double a, double nu, double Lx, const vector <double> &kx, cons
         complex<double> diffusion_term = -nu * pow(kx[i],2) * complex<double>(u_hat[i][0], u_hat[i][1]);
 
         // Advection term: -i * a * k * u_hat
-        complex<double> advection_term = -complex<double>(0, 1) * a * pow(kx[i],2) * complex<double>(u_hat[i][0], u_hat[i][1]);
+        complex<double> advection_term = -complex<double>(0, 1) * a * kx[i] * complex<double>(u_hat[i][0], u_hat[i][1]);
 
         // Total RHS term
         du_hat_dt[i] = diffusion_term + advection_term;
