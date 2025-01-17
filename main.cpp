@@ -13,6 +13,7 @@ using namespace chrono;
 //################### 00. Function Prototype Declarations ####################
 void compute_rhs(double a, double nu, double Lx, const vector <double> &kx, const fftw_complex *u_hat, vector<complex<double>> &du_hat_dt);
 
+//########################### 01. Initializations ############################
 int main(){
 
 // 0.Parameters
@@ -143,7 +144,7 @@ for (size_t t_cuntr{0}; t_cuntr < Nt+1; ++t_cuntr){
     }
     
 }
-//##################################################################################
+//########################## End of Time-stepping loop ##############################
 
 // 03.03. Transform back to Physical space
     fftw_execute(backward);
