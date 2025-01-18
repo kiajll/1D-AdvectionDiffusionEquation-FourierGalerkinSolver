@@ -64,7 +64,6 @@ if (CFL > 1.0) {
         outFile1 << x[i] << "," << u[i] << "\n";
     }
     outFile1.close();
-
     
 //################### 02. Initialize FFTW PLAN ####################
 // 02.01. Define wave numbers (kx)
@@ -193,7 +192,6 @@ cout << "Elapsed time for the time-stepping loop: " << duration.count() << " ms"
 
 return 0;
 }
-
 
 //################### 04. Function Definitions #################### 
 // 04.01 rhs function: du_hat_dt = compute_rhs(nu,Lx,k,u_hat)
