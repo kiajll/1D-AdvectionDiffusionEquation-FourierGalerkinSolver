@@ -71,25 +71,23 @@ if (CFL > 1.0) {
     for (int i = 0; i < N; ++i) {
         kx[i] = (i < N / 2) ? i * 2.0 * M_PI / Lx : (i - N) * 2.0 * M_PI / Lx;
     }    
- 
-// 02.02 Fourier transform of Initial data
-    fftw_complex *u_hat;
-    fftw_complex *du_hat_dt;
 
-// 02.03. Allocate memory for Fourier coefficients
+// 02.02. Allocate memory for Fourier coefficients
     size_t fft_size = sizeof(fftw_complex) * N;
     
+    fftw_complex *u_hat;
     u_hat = (fftw_complex*) fftw_malloc(fft_size);    // u_hat is a pointer of the type fftw_complex
     memset(u_hat, 0, fft_size);  //  Zero Initialize
 
+    fftw_complex *du_hat_dt;
     du_hat_dt = (fftw_complex*) fftw_malloc(fft_size);
     memset(du_hat_dt, 0, fft_size);  //  Zero Initialize
 
-// 02.04. Create FFTW plans
+// 02.03. Create FFTW plans
     fftw_plan forward = fftw_plan_dft_r2c_1d(N, u.data(), u_hat, FFTW_ESTIMATE);
     fftw_plan backward = fftw_plan_dft_c2r_1d(N, u_hat, u.data(), FFTW_ESTIMATE);
     
-// 02.05. Perform forward FFT
+// 02.04. Perform forward FFT
     fftw_execute(forward);
    
 // 02.06. Allocate memory for intermediate arrays
@@ -101,13 +99,13 @@ if (CFL > 1.0) {
 
     fftw_complex *u_hat3 = (fftw_complex*) fftw_malloc(fft_size);
     memset(u_hat3, 0, fft_size);
-// 02.06.01. Check memory allocation success for intermediate arrays
+// 02.05.01. Check memory allocation success for intermediate arrays
     if (!u_hat1 || !u_hat2 || !u_hat3) {
         cerr << "Error: Memory allocation failed for intermediate arrays (u_hat1 or u_hat2). Exiting program." << endl;
         return -1;
     }
     
-//  02.07. Allocate intermediate arrays to improve performance 
+//  02.06. Allocate intermediate arrays to improve performance 
     vector<complex<double>> R1(kx.size());
     vector<complex<double>> R2(kx.size());
     vector<complex<double>> R3(kx.size());
