@@ -75,11 +75,11 @@ if (CFL > 1.0) {
 // 02.02. Allocate memory for Fourier coefficients
     size_t fft_size = sizeof(fftw_complex) * N;
     
-    fftw_complex *u_hat;
+    fftw_complex *u_hat{nullptr};
     u_hat = (fftw_complex*) fftw_malloc(fft_size);    // u_hat is a pointer of the type fftw_complex
     memset(u_hat, 0, fft_size);  //  Zero Initialize
 
-    fftw_complex *du_hat_dt;
+    fftw_complex *du_hat_dt{nullptr};
     du_hat_dt = (fftw_complex*) fftw_malloc(fft_size);
     memset(du_hat_dt, 0, fft_size);  //  Zero Initialize
 
