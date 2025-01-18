@@ -18,7 +18,7 @@ int main(){
 
 // 0.Parameters
     const double nu{0.001};                   // Kinematic viscosity
-    const int N = pow(2,8);            // Number of spatial grid points, degree of freedom
+    const int N = pow(2,8);                   // Number of spatial grid points, degree of freedom
     const double U0{1.0};                     // Amplitude of the initial velocity field
     const double a{1.0};                      // Convective velocity
     const int n{1};                           // Mode of initial wavenumber
