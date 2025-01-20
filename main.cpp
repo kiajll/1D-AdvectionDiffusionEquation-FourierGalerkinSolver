@@ -34,8 +34,7 @@ if (CFL > 1.0) {
 }
 // 2. Spatial grid
     vector <double> x (N,0);
-    for(int i{0} ; i<N ; ++i){               // i=0:N-1; (N-1 points + zero), where N's point is x[N-1] which is equal to x[0]
-        
+    for(int i{0} ; i<N ; ++i){               // i=0:N-1; (N-1 points + zero), where N's point is x[N-1] which is equal to x[0]  
         x[i] = i*(Lx/N);                     // Lx divided to N-1 portion with N points
     }
     
