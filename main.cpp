@@ -19,11 +19,8 @@ int main(){
 // 0.Parameters
     const double nu{0.001};                   // Kinematic viscosity
     const int N = pow(2,8);                   // Number of spatial grid points, degree of freedom
-    const double U0{1.0};                     // Amplitude of the initial velocity field
     const double a{1.0};                      // Convective velocity
-    const int n{1};                           // Mode of initial wavenumber
     const double Lx{2.0*M_PI};                // Length of periodic domain
-    const double k = (n* 2 * M_PI / Lx);      // Wave number of initial velocity field
     const double tf = 1;                      // Final time
     const double dt = 1e-4;                   // Time step
     const size_t Nt = static_cast<size_t>(round(tf / dt)); // Number of time steps
@@ -43,6 +40,9 @@ if (CFL > 1.0) {
     }
     
 // 3. Initial velocity field: u(x,0)= -U0 * sin(kx)
+    const int n{1};                           // Mode of initial wavenumber
+    const double k = (n* 2 * M_PI / Lx);      // Wave number of initial velocity field
+    const double U0{1.0};                     // Amplitude of the initial velocity field
     vector <double> u (N,0);
     for(int i{0} ; i < N ; ++i){
         u[i] = -U0 * sin(k * x[i]);
