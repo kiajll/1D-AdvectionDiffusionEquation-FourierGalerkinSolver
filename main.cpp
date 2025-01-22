@@ -67,9 +67,7 @@ if (CFL > 1.0) {
 //################### 02. Initialize FFTW PLAN ####################
 // 02.01. Define wave numbers (kx)
     vector <double> kx (N);
-    for (int i = 0; i < N; ++i) {
-        kx[i] = (i < N / 2) ? i * 2.0 * M_PI / Lx : (i - N) * 2.0 * M_PI / Lx;
-    }    
+    for (int i = 0; i < N; ++i) kx[i] = (i < N / 2) ? i * 2.0 * M_PI / Lx : (i - N) * 2.0 * M_PI / Lx;
 
 // 02.02. Allocate memory for Fourier coefficients
     size_t fft_size = sizeof(fftw_complex) * N;
